@@ -305,6 +305,27 @@ test( "jQuery.Deferred.then - context", function() {
 	});
 });
 
+var cancels = [
+  ["cancelDone", "done", "resolve"],
+  ["cancelFail", "fail", "reject"],
+  ["cancelProgress", "progress", "notify"]
+];
+
+jQuery.each(cancels, function(i, cancel) {
+  test( "jQuery.Deferred." + cancel[0] + " - cancel deferred callbacks", function() {
+    expect(1);
+
+    var defer = jQuery.Deferred(),
+        canceled = function() { ok(false, cancel[0] + ": canceled callback should not be run"); },
+        run = function() { ok(true, cancel[0] +  ": non-cancelled callback should be run"); };
+
+    defer[cancel[1]](canceled);
+    defer[cancel[1]](run);
+    defer[cancel[0]](canceled);
+    defer[cancel[2]]();
+  });
+});
+
 test( "jQuery.when" , function() {
 
 	expect( 34 );

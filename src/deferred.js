@@ -59,6 +59,7 @@ jQuery.extend({
 
 			// promise[ done | fail | progress ] = list.add
 			promise[ tuple[1] ] = list.add;
+      promise[ "cancel" + tuple[1][0].toUpperCase() + tuple[1].substr(1) ] = list.remove;
 
 			// Handle state
 			if ( stateString ) {
